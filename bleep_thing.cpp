@@ -28,15 +28,15 @@ int randomInt(int min, int max){
 
 void generateValues (int* minFreq, int* maxFreq, float* minDuration, float* maxDuration){
     if (maxFreq){
-        *maxFreq = randomInt(21, 4000);
+        *maxFreq = randomInt(8001, 40000);
         std::cout << "maxFreq = " << *maxFreq;
     }
     if (minFreq){
-        *minFreq = randomInt(20, *maxFreq);
+        *minFreq = randomInt(8001, *maxFreq);
 	std::cout << " minFreq = " << *minFreq;
     }
     if (minDuration){
-        *minDuration = randomFloat(0.0, 2);
+        *minDuration = randomFloat(0.0, 2.0);
         std::cout << " minDuration = " << *minDuration;
     }
     if (maxDuration){
@@ -76,8 +76,9 @@ int main (int argc, char* argv[]){
     std::thread th(readButton, &minFreq, &maxFreq, &minDuration, &maxDuration);
     while (true){
 	if (!locked){
-            int pack[3] = {randomInt(minFreq, maxFreq), randomInt(minFreq, maxFreq), randomInt(minFreq, maxFreq)}; 
+            int pack[3] = {randomInt(minFreq, maxFreq), randomInt(minFreq, maxFreq)*2, randomInt(minFreq, maxFreq)}; 
 	    p.play(pack, 3, randomFloat(minDuration, maxDuration), true);
+	    sleep(randomFloat(minDuration, maxDuration));
 	}
     } 
 }
