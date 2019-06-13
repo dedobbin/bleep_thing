@@ -15,17 +15,17 @@ bool seeded = false;
 bool locked = false;
 int currentStressIntensity = 0;
 
-
+//Occupy resources to influence sound
 void setStress(bool on = true, int intensity = 8){
-    if (on && intensity != currentStressIntensity){
+    if (intensity == 0 || on == false){
+      std::cout << "turn stress off" << std::endl;
+      system("pkill sysbench");
+      currentStressIntensity = 0;
+    } else if (on && intensity != currentStressIntensity){
       std:: cout << "stress on: " << intensity << std::endl;
       std::string cmd = "sysbench --test=cpu --num-threads=" + std::to_string(intensity) + " --cpu-max-prime=50000 run > /dev/null 2>&1 &";
       system(cmd.c_str());
       currentStressIntensity = intensity;
-    } else if (!on || intensity == 0){
-      std::cout << "turn stress off" << std::endl;
-      system("pkill sysbench");
-      currentStressIntensity = 0;
     }
 }
 
